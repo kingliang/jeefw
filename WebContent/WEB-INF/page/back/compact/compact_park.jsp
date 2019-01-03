@@ -11,8 +11,18 @@
 <link rel="stylesheet" href="${contextPath}/static/assets/css/bootstrap-datetimepicker.css"/>
 <link rel="stylesheet" href="${contextPath}/static/assets/css/select2.css" />
 <link rel="stylesheet" href="${contextPath}/static/assets/css/load.css" />
+<link rel="stylesheet" href="${contextPath}/static/assets/css/fileinput.min.css" />
+
 
 <body>
+    <div style="margin-bottom: 10px">
+        合同期限 :
+        <select class="col-xs-2 select2" id="htqx" style="float: none;height: 35px;" onchange="getdatareflush()">
+            <option value="">所有</option>
+            <option value="1">将到期</option>
+            <option value="2">已过期</option>
+        </select>
+    </div>
 
     <!--操作按钮-->
     <div class="row">
@@ -72,18 +82,35 @@
 
     <!--合同预览-->
     <div id="modal-table1" class="modal fade" data-backdrop="static">
-    <div class="modal-dialog" style="width: 90%;height: 90%">
-        <div class="modal-content">
-            <div class="table-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    <span class="white">&times;</span>
-                </button>
-                合同预览
+        <div class="modal-dialog" style="width: 90%;height: 90%">
+            <div class="modal-content">
+                <div class="table-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="white">&times;</span>
+                    </button>
+                    合同预览
+                </div>
+                <div id="handout_wrap_inner"></div>
             </div>
-            <div id="handout_wrap_inner"></div>
         </div>
     </div>
-</div>
+
+    <!--附件上传-->
+    <div id="modal-table3" class="modal fade" data-backdrop="static">
+        <div class="modal-dialog" style="width: 60%;">
+            <div class="modal-content">
+                <div class="table-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <span class="white">&times;</span>
+                    </button>
+                    附件上传
+                </div>
+                <div style="height: 350px;">
+                    <input name="uploadFile"  type="file" id="uploadFile" multiple class="file-loading" />
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--合同新增-->
     <div id="modal-table" class="modal fade" data-backdrop="static">
@@ -113,12 +140,6 @@
                             <div class="widget-main">
                                 <div class="form-group">
                                     <div><input type="hidden" id="id" /></div>
-                                    <label class="col-sm-2 control-label blue" style="text-align: left" for="contype">合同类型：</label>
-                                    <div class="col-sm-4">
-                                        <select class="select2" id="contype" style="width: 100%">
-                                            <option value="2" selected>协议停车合同</option>
-                                        </select>
-                                    </div>
                                     <label class="col-sm-2 control-label blue" style="text-align: left" for="htsj">合同时间：</label>
                                     <div class="col-sm-4">
                                         <div class="input-group">
@@ -127,6 +148,12 @@
 											</span>
                                             <input class="form-control" type="text" name="date-range-picker" id="htsj"/>
                                         </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label blue" style="text-align: left;display-outside: none" for="contype">合同类型：</label>
+                                    <div class="col-sm-4" style="display: none;">
+                                        <select class="select2" id="contype" style="width: 100%">
+                                            <option value="2" selected>协议停车合同</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group" >
@@ -453,15 +480,6 @@
                             <div class="widget-main">
                                 <div class="form-group">
                                     <div><input type="hidden" id="id_edit" /></div>
-                                    <label class="col-sm-2 control-label blue" style="text-align: left" for="contype_edit">合同类型：</label>
-                                    <div class="col-sm-4">
-                                        <select class="select2" id="contype_edit" style="width: 100%" >
-                                            <option value="">--请选择--</option>
-                                            <option value="1">物业管理服务合同</option>
-                                            <option value="2">协议停车合同</option>
-                                            <option value="3">其他合同</option>
-                                        </select>
-                                    </div>
                                     <label class="col-sm-2 control-label blue" style="text-align: left" for="htsj_edit">合同时间：</label>
                                     <div class="col-sm-4">
                                         <div class="input-group">
@@ -470,6 +488,15 @@
 											</span>
                                             <input class="form-control" type="text" name="date-range-picker" id="htsj_edit"/>
                                         </div>
+                                    </div>
+                                    <label class="col-sm-2 control-label blue" style="text-align: left;display: none;" for="contype_edit">合同类型：</label>
+                                    <div class="col-sm-4" style="display: none;">
+                                        <select class="select2" id="contype_edit" style="width: 100%" >
+                                            <option value="">--请选择--</option>
+                                            <option value="1">物业管理服务合同</option>
+                                            <option value="2">协议停车合同</option>
+                                            <option value="3">其他合同</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-group" >
@@ -783,7 +810,8 @@
         "${contextPath}/static/assets/js/jquery.hotkeys.js", "${contextPath}/static/assets/js/bootstrap-wysiwyg.js", "${contextPath}/static/assets/js/bootbox.js",
         "${contextPath}/static/assets/js/jquery.gritter.js","${contextPath}/static/assets/js/date-time/moment.js", "${contextPath}/static/assets/js/date-time/bootstrap-datepicker.js",
         "${contextPath}/static/assets/js/date-time/bootstrap-timepicker.js", "${contextPath}/static/assets/js/date-time/daterangepicker.js", "${contextPath}/static/assets/js/date-time/bootstrap-datetimepicker.js",
-        "${contextPath}/static/assets/js/select2.js","${contextPath}/static/assets/js/jquery.media.js","${contextPath}/static/assets/js/load-min.js" ,null]
+        "${contextPath}/static/assets/js/select2.js","${contextPath}/static/assets/js/jquery.media.js","${contextPath}/static/assets/js/load-min.js" ,"${contextPath}/static/assets/js/fileinput.min.js" ,
+        "${contextPath}/static/assets/js/zh.js",null]
     $(".page-content-area").ace_ajax("loadScripts", scripts, function () {
         jQuery(function ($) {
             $('.select2').select2({allowClear:true})
@@ -844,7 +872,7 @@
                 url: "${contextPath}/sys/contract/getContractByCondition",
                 datatype: "json",
                 height: 450,
-                colNames: ["ID", "合同编号", "管理方", "承租方", "合同类型", "承租方联系电话", "租赁开始时间","租赁结束时间", "合同状态"],
+                colNames: ["ID", "合同编号", "管理方", "承租方", "合同类型", "承租方联系电话", "租赁开始时间","租赁结束时间", "合同状态","操作"],
                 colModel: [{
                     name: "id",
                     width: 60,
@@ -898,6 +926,13 @@
                             return "已完成";
                         }
                     }
+                }, {
+                    name: "operation",
+                    width: 100,
+                    search: false,
+                    formatter:function(celval, options, rowdata){
+                        return  '<a role="button" class="btn btn-sm" onclick="openUploadModel(\''+rowdata.id+'\')">上传附件</a>&nbsp;&nbsp;&nbsp;<a role="button" class="btn btn-sm" onclick="loadFile(\''+rowdata.id+'\')">下载附件</a>';
+                    }
                 }],
                 sortname: "id",
                 sortorder: "asc",
@@ -919,6 +954,7 @@
                         enableTooltips(table);
                     }, 0);
                 },
+                beforeSelectRow: beforeSelectRow,
                 editurl: "${contextPath}/sys/compact/operateCompact",
                 gridComplete:function(){
                     var ids = $(grid_selector).getDataIDs();
@@ -928,8 +964,13 @@
                         var today = new Date();
                         var date = new Date(today);
                         var today_time = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
-                        if (httime <= today_time) {
+                        if (compareDate(httime,today_time)) {
                             $('#' + ids[i]).find("td").css("background-color", "#FFB6C1");
+                        }
+                        date.setMonth(date.getMonth() + 4);
+                        var today_time4 = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+                        if (compareDate(today_time,httime)&&compareDate(httime,today_time4)) {
+                            $('#' + ids[i]).find("td").css("background-color", "#FFE4CA");
                         }
                     }
                 }
@@ -946,6 +987,11 @@
             });
 
             $(window).triggerHandler("resize.jqGrid");
+
+            function beforeSelectRow() {
+                $(grid_selector).jqGrid('resetSelection');
+                return true;
+            }
 
             function aceSwitch(cellvalue, options, cell) {
                 setTimeout(function () {
@@ -996,6 +1042,10 @@
                 $("#compactForm")[0].reset();
                 $("#editor").html("");
                 $("#modal-tip").html("");
+                initBuildSelect2('buildid');
+                initPartaSelect2('partacode');
+                initPaytypeSelect2('paytype','WYYJ');
+                initPartbSelect2('partbcode');
             });
 
             $("#editCompactButton").bind("click", function () {
@@ -1182,7 +1232,7 @@
                     return;
                 }
                 if($.trim($('#partaaccount').val())==''){
-                    $("#modal-tip").html("请填写甲方联系电话");
+                    $("#modal-tip").html("请填写甲方账号");
                     return;
                 }
                 if($.trim($('#bankname').val())==''){
@@ -1205,10 +1255,6 @@
                 }
                 if($.trim($('#partblegalperson').val())==''){
                     $("#modal-tip").html("请填写乙方法定代表人");
-                    return;
-                }
-                if($.trim($('#partbncontact').val())==''){
-                    $("#modal-tip").html("请填写乙方联系电话");
                     return;
                 }
                 if($.trim($('#partbtaxnumber').val())==''){
@@ -1369,7 +1415,7 @@
                     return;
                 }
                 if($.trim($('#partaaccount_edit').val())==''){
-                    $("#modal-tip-edit").html("请填写甲方联系电话");
+                    $("#modal-tip-edit").html("请填写甲方账号");
                     return;
                 }
                 if($.trim($('#bankname_edit').val())==''){
@@ -1392,10 +1438,6 @@
                 }
                 if($.trim($('#partblegalperson_edit').val())==''){
                     $("#modal-tip-edit").html("请填写乙方法定代表人");
-                    return;
-                }
-                if($.trim($('#partbncontact_edit').val())==''){
-                    $("#modal-tip-edit").html("请填写乙方联系电话");
                     return;
                 }
                 if($.trim($('#partbtaxnumber_edit').val())==''){
@@ -2112,7 +2154,9 @@
                     params.page = checkIsNull(params.page) ? 1 : params.page;
                     var itemList = [];
                     var row = data.rows;
-                    itemList.push({id: 99999, text: '暂无信息,选此项可添加'});
+                    if(params.page==1){
+                        itemList.push({id: 99999, text: '暂无信息,选此项可添加'});
+                    }
                     for(var i=0;i<row.length;i++){
                         itemList.push({id: row[i].id, text: row[i].name});
                     }
@@ -2475,6 +2519,118 @@
         $("#" + form + " .select2").each(function () {
             $(this).val("").trigger("change");
         });
+    }
+
+    function openUploadModel(contract_id){
+        var fileInput = new FileInput();
+        fileInput.Init("uploadFile", "${contextPath}/sys/contract/uploadContractFile",contract_id);
+        $("#modal-table3").modal("toggle");
+    }
+
+    var FileInput = function() {
+        var oFile = new Object();
+        //初始化fileinput控件（第一次初始化）
+        oFile.Init = function(ctrlName, uploadUrl,param) {
+            var control = $('#' + ctrlName);
+            //初始化上传控件的样式
+            control.fileinput({
+                language: 'zh', //设置语言
+                uploadUrl: uploadUrl,
+                uploadAsync: true, //默认异步上传
+                showUpload: false, //是否显示上传按钮
+                showRemove: true, //显示移除按钮
+                showCaption: true, //是否显示标题
+                dropZoneEnabled: true, //是否显示拖拽区域
+                //minImageWidth: 50, //图片的最小宽度
+                //minImageHeight: 50,//图片的最小高度
+                //maxImageWidth: 1000,//图片的最大宽度
+                //maxImageHeight: 1000,//图片的最大高度
+                //maxFileSize:0,//单位为kb，如果为0表示不限制文件大小
+                //minFileCount: 0,
+                maxFileCount: 10, //表示允许同时上传的最大文件个数
+                enctype: 'multipart/form-data',
+                browseClass: "btn btn-primary", //按钮样式: btn-default、btn-primary、btn-danger、btn-info、btn-warning
+                previewFileIcon: "<i class='glyphicon glyphicon-king'></i>",
+                uploadExtraData:function (previewId, index) {           //传参
+                    var data = {
+                        "id": param,      //此处自定义传参
+                    };
+                    return data;
+                }
+            });
+
+            //文件上传完成之后发生的事件
+            $("#uploadFile").on("fileuploaded", function(event, data, previewId, index) {
+
+            });
+        }
+        return oFile;   //这里必须返回oFile对象，否则FileInput组件初始化不成功
+    };
+
+
+    function loadFile(id){
+        var params = new Object();
+        params.id =  id;
+        $.ajax({
+            dataType : "json",
+            url : "${contextPath}/sys/contract/downloadFile",
+            type : "post",
+            contentType: 'application/json',
+            data :JSON.stringify(params),
+            beforeSend: function () {
+                $.mask_fullscreen();
+            },
+            complete: function (xmlRequest) {
+                $.mask_close_all();
+                console.log(xmlRequest) ;
+                if(xmlRequest.statusText=='success'){
+                    if(xmlRequest.responseJSON.success=='success'){
+                        var url = xmlRequest.responseJSON.message;
+                        window.open("${contextPath}"+url.split("${contextPath}")[1]);
+                    } else{
+                        toastMessage('系统信息', xmlRequest.responseJSON.message);
+
+                    }
+                }else{
+                    toastMessage('系统信息', xmlRequest.responseJSON.message);
+                }
+            },
+            error: function () {
+                $.mask_close_all();
+            }
+        });
+    }
+
+    function toastMessage(title, text) {
+        $.gritter.add({
+            title: title,
+            text: text,
+            position: 'top-right',
+            time:2000,
+            class_name: 'gritter-info'
+        });
+        return;
+    }
+
+    function getdatareflush(){
+        jQuery("#grid-table").jqGrid('setGridParam',{
+            datatype:'json',
+            postData:{'htqx':$("#htqx").val()}, //发送数据
+            page:1
+        }).trigger("reloadGrid"); //重新载入
+    }
+
+    function compareDate(startDate, endDate) {
+        var arrStart = startDate.split("-");
+        var startTime = new Date(arrStart[0], arrStart[1], arrStart[2]);
+        var startTimes = startTime.getTime();
+        var arrEnd = endDate.split("-");
+        var endTime = new Date(arrEnd[0], arrEnd[1], arrEnd[2]);
+        var endTimes = endTime.getTime();
+        if (endTimes<startTimes) {
+            return false;
+        }
+        return true;
     }
 
 </script>

@@ -10,22 +10,22 @@
 <div class="row">
 	<div class="col-xs-12">
 		<div class="well well-sm">
-			<shiro:hasPermission name="${ROLE_KEY}:information:add">
+			<shiro:hasPermission name="${ROLE_KEY}:firstpartyContract:add">
 				<a id="addInformationButton" role="button" class="btn btn-info btn-sm" data-toggle="modal">
 					添加记录
 				</a>
 			</shiro:hasPermission>
-			<shiro:lacksPermission name="${ROLE_KEY}:information:add">
+			<shiro:lacksPermission name="${ROLE_KEY}:firstpartyContract:add">
 				<a id="addInformationButton" disabled="disabled" role="button" class="btn btn-info btn-sm" data-toggle="modal">
 					添加记录
 				</a>
 	        </shiro:lacksPermission>
-	        <shiro:hasPermission name="${ROLE_KEY}:information:edit">
+	        <shiro:hasPermission name="${ROLE_KEY}:firstpartyContract:edit">
 				<a id="editInformationButton" role="button" class="btn btn-purple btn-sm" data-toggle="modal">
 					编辑记录
 				</a>
 			</shiro:hasPermission>
-			<shiro:lacksPermission name="${ROLE_KEY}:information:edit">
+			<shiro:lacksPermission name="${ROLE_KEY}:firstpartyContract:edit">
 				<a id="editInformationButton" role="button" disabled="disabled" class="btn btn-purple btn-sm" data-toggle="modal">
 					编辑记录
 				</a>			
@@ -376,13 +376,13 @@
         			editicon : "ace-icon fa fa-pencil blue",
         			add : false,
         			addicon : "ace-icon fa fa-plus-circle purple",
-        			del : <shiro:hasPermission name="${ROLE_KEY}:information:delete">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:information:delete">false</shiro:lacksPermission>,
+        			del : <shiro:hasPermission name="${ROLE_KEY}:firstpartyContract:delete">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:firstpartyContract:delete">false</shiro:lacksPermission>,
         			delicon : "ace-icon fa fa-trash-o red",
-        			search : <shiro:hasPermission name="${ROLE_KEY}:information:search">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:information:search">false</shiro:lacksPermission>,
+        			search : <shiro:hasPermission name="${ROLE_KEY}:firstpartyContract:search">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:firstpartyContract:search">false</shiro:lacksPermission>,
         			searchicon : "ace-icon fa fa-search orange",
         			refresh : true,
         			refreshicon : "ace-icon fa fa-refresh blue",
-        			view : <shiro:hasPermission name="${ROLE_KEY}:information:view">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:information:view">false</shiro:lacksPermission>,
+        			view : <shiro:hasPermission name="${ROLE_KEY}:firstpartyContract:view">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:firstpartyContract:view">false</shiro:lacksPermission>,
         			viewicon : "ace-icon fa fa-search-plus grey"
         		}, {
         			// edit record form
@@ -453,7 +453,7 @@
         		})
         		
         		// add custom button to export the data to excel
-        		if(<shiro:hasPermission name="${ROLE_KEY}:information:export">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:information:export">false</shiro:lacksPermission>){
+        		if(<shiro:hasPermission name="${ROLE_KEY}:firstpartyContract:export">true</shiro:hasPermission><shiro:lacksPermission name="${ROLE_KEY}:firstpartyContract:export">false</shiro:lacksPermission>){
     				jQuery(grid_selector).jqGrid("navButtonAdd", pager_selector,{
    					   caption : "",
    				       title : "导出Excel",

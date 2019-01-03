@@ -37,10 +37,16 @@ public class AchievementDaoImpl extends BaseDao<AchievementEntity> implements Ac
 		
 		if(!StringUnit.isNullOrEmpty(model.getBuild())){
 			sb.append(" and t.build = '"+model.getBuild()+"' ");
+		}else{
+			return null;
 		}
 		
 		if(!StringUnit.isNullOrEmpty(model.getYear())){
 			sb.append(" and t.year = '"+model.getYear()+"' ");
+		}
+		
+		if(!StringUnit.isNullOrEmpty(model.getMonth())){
+			sb.append(" and t.month = '"+model.getMonth()+"' ");
 		}
 		
 		if(!StringUnit.isNullOrEmpty(model.getId())){
@@ -176,7 +182,7 @@ public class AchievementDaoImpl extends BaseDao<AchievementEntity> implements Ac
 	public JqGridPageView<AchievementSumResponseModel> sumToTable(AchievementModel model){
 		JqGridPageView<AchievementSumResponseModel> result = new JqGridPageView<AchievementSumResponseModel>();
 		Session session = this.getSession();
-		StringBuffer where = new StringBuffer(" 1=1 ");
+		StringBuffer where = new StringBuffer(" 1=1 and tb.deleteflg = '0' and ta.deleteflg = '0' ");
 		if(!StringUnit.isNullOrEmpty(model.getBuild())){
 			where.append(" and tb.build = '"+model.getBuild()+"' ");
 		}

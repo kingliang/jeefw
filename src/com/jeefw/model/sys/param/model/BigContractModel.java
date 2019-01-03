@@ -3,7 +3,6 @@ package com.jeefw.model.sys.param.model;
 import com.jeefw.model.recode.param.BaseModel;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 public class BigContractModel <T, G> extends BaseModel<T, G> implements Serializable {
@@ -72,6 +71,10 @@ public class BigContractModel <T, G> extends BaseModel<T, G> implements Serializ
     private String partbaccount;
     private String partbaccountname;
     private String partbbankname;
+    private String othercontype;
+    private String otherpaytype;
+
+    private String htqx;//合同期限 1：将到期 2：已过期
 
     public String getId() {
         return id;
@@ -527,5 +530,29 @@ public class BigContractModel <T, G> extends BaseModel<T, G> implements Serializ
 
     public void setPartbbankname(String partbbankname) {
         this.partbbankname = partbbankname;
+    }
+
+    public String getOthercontype() {
+        return othercontype;
+    }
+
+    public void setOthercontype(String othercontype) {
+        this.othercontype = othercontype;
+    }
+
+    public String getOtherpaytype() {
+        return otherpaytype;
+    }
+
+    public void setOtherpaytype(String otherpaytype) {
+        this.otherpaytype = otherpaytype;
+    }
+
+    public String getHtqx() {
+        return htqx;
+    }
+
+    public void setHtqx(String htqx) {
+        this.htqx = htqx;
     }
 }
